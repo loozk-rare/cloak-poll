@@ -37,8 +37,20 @@ export function Footer() {
   return (
     <Wrapper>
       <Links>
+        <Link href="https://github.com/brozorec" target="_blank">
+          brozorec
+        </Link>
         <Link href="https://twitter.com/CKobril" target="_blank">
           ckobril
+        </Link>
+        <Link href="https://github.com/DeveloperMarwan" target="_blank">
+          DeveloperMarwan
+        </Link>
+        <Link href="https://github.com/eccentricexit" target="_blank">
+          eccentricexit
+        </Link>
+        <Link href="https://github.com/upalchowdhury" target="_blank">
+          upalchowdhury
         </Link>
       </Links>
     </Wrapper>
