@@ -215,3 +215,30 @@ export const SmallLabel = styled.div`
   padding: 0.3rem;
   text-transform: capitalize;
 `;
+
+export const LabelBox = styled.div`
+  margin-bottom: 5px;
+  width: fit-content;
+  color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-weight: bold;
+  padding: 0.5rem;
+  text-transform: capitalize;
+`;
+
+export const Details = styled.div`
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #333;
+  background-color: white;
+  border-left: 4px solid #22c333;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  span {
+    font-weight: bold;
+    color: #22c333;
+  }
+`;
