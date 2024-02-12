@@ -5,7 +5,6 @@ import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import PlausibleProvider from "next-plausible";
 import type { AppProps } from "next/app";
-import { sepolia } from "wagmi/chains";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
