@@ -15,7 +15,9 @@ import {
 import { http } from "@/utils/fetch";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAsyncMemo } from "use-async-memo";
-import { erc20ABI, sepolia, useAccount } from "wagmi";
+import { erc20Abi } from "viem";
+import { sepolia } from "viem/chains";
+import { useAccount } from "wagmi";
 import { readContract, waitForTransaction, writeContract } from "wagmi/actions";
 
 // Page component
