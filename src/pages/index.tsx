@@ -16,7 +16,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 export default function Home() {
-  const isMounted = useIsMounted(); // Prevent Next.js hydration errors
+  const isMounted = useIsMounted(); // Prevent Next.js hydration errors `poll/${index}`
   const router = useRouter();
 
   const isEnded = (endDate: string) => {
@@ -32,6 +32,7 @@ export default function Home() {
       return "green";
     }
   };
+  console.log(votingPolls);
 
   return (
     <>
@@ -52,11 +53,11 @@ export default function Home() {
           <Link href="/poll/create" passHref>
             <CreateButton>Create Poll</CreateButton>
           </Link>
-
+          
           <Title>Polls</Title>
           <PollsContainer>
-            {votingPolls.map((poll, index) => (
-              <PollBox key={index} onClick={() => router.push(`poll/${index}`)}>
+            {votingPolls.map((poll) => (
+              <PollBox key={poll.id} onClick={() => router.push(`/poll/identity?pollId=${poll.id}`)}> 
                 <h3>{poll.title}</h3>
                 <SmallLabel
                   style={{ background: getBackgroundColor(poll.endDate) }}

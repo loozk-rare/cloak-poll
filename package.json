@@ -2,19 +2,28 @@
   "name": "web3-starter",
   "version": "0.1.0",
   "private": true,
+
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "start:ts": "ts-node --project tsconfig.json src/hooks/useSemaphore.ts",
     "clean": "rm -rf node_modules .next",
     "prettier:check": "prettier --check src/**/*",
     "prettier:fix": "prettier --write src/**/*"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
     "@rainbow-me/rainbowkit": "2",
+    "@semaphore-protocol/data": "3.15.0",
+    "@semaphore-protocol/group": "3.15.0",
+    "@semaphore-protocol/identity": "3.15.0",
+    "@semaphore-protocol/proof": "3.15.0",
     "@tanstack/react-query": "^5.20.1",
     "@types/uuid": "^9.0.7",
+    "ethers": "^5.7.2",
+    "framer-motion": "^11.0.5",
     "next": "13.4.1",
     "next-plausible": "^3.7.2",
     "openai": "^4.24.7",
@@ -40,6 +49,7 @@
     "eslint-config-prettier": "^8.8.0",
     "prettier": "^2.8.8",
     "sass": "^1.62.1",
-    "typescript": "^5.0.4"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }

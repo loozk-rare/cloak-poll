@@ -1,4 +1,6 @@
 /node_modules
+/contracts
 .next
 .env
 .env.local
+.env.local.template

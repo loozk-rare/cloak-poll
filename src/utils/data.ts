@@ -1,6 +1,7 @@
 export const votingPolls = [
   {
     title: "Decentralized Finance Regulation",
+    id:1,
     description:
       "Vote on the proposed regulations for DeFi projects to ensure community safety and project sustainability.",
     startDate: "2024-02-15",
@@ -8,6 +9,7 @@ export const votingPolls = [
   },
   {
     title: "Token Listing Proposal",
+    id: 2,
     description:
       "Community vote on listing a new token on our decentralized exchange platform.",
     startDate: "2024-01-05",
@@ -15,6 +17,7 @@ export const votingPolls = [
   },
   {
     title: "Governance Token Redistribution",
+    id:3,
     description:
       "Proposal to redistribute governance tokens to increase community engagement and decentralization.",
     startDate: "2024-04-01",
@@ -22,6 +25,7 @@ export const votingPolls = [
   },
   {
     title: "Network Upgrade Decision",
+    id:4,
     description:
       "Decide on the next network upgrade to enhance transaction speed and reduce fees.",
     startDate: "2024-05-10",
