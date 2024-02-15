@@ -12,3 +12,9 @@ Run the project with `yarn dev` and visit `http://localhost:3000` to see the res
 ```
 
 ```
+
+
+## This branch includes semaphore integration. To use it ,
+    1. Run `local hardhat`
+    2. deploy the `semaphore` and `feedback.sol` contract
+    3. Run the app `yarn dev`
