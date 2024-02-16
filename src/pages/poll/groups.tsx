@@ -11,6 +11,8 @@ import IconAddCircleFill from "../../icons/IconAddCircleFill"
 import IconRefreshLine from "../../icons/IconRefreshLine"
 import useSemaphore from "../../hooks/useSemaphore"
 
+
+
 const { publicRuntimeConfig: env } = getNextConfig()
 
 export default function GroupsPage() {
@@ -21,9 +23,21 @@ export default function GroupsPage() {
     const [_logs, sLogs] = useState<string>("")
 
     const { _users, refreshUsers, addUser } = useContext(SemaphoreContext)
-    console.log(_users,refreshUsers,addUser)
+    console.log("refreshed users.............................",_users.length)
     const [_loading, setLoading] = useBoolean()
     const [_identity, setIdentity] = useState<Identity>()
+
+    // const getAllLocalStorageKeys = () => {
+    //     const keys = [];
+
+    //     for (let i = 0; i < localStorage.length; i++) {
+    //         keys.push(localStorage.key(i));
+    //     }
+    //     return keys;
+    // };
+
+    // const localStorageKeys = getAllLocalStorageKeys();
+    // console.log("these are the keys available........",localStorageKeys);
 
     const [isClient, setIsClient] = useState(false);
     useEffect(() => {
@@ -31,13 +45,14 @@ export default function GroupsPage() {
     }, []);
 
     const semaphore = useSemaphore()
-    console.log("semapphoer users.......................",semaphore._users)
-
+    console.log("semapphoer ,,,,,,,,,,, users.......................",semaphore._users)
 
     useEffect(() => {
-        semaphore.refreshUsers()
-        semaphore.refreshFeedback()
-    }, [])
+        semaphore.refreshUsers();
+    }, []); // Dependency array might include specific triggers to refresh users
+
+
+
 
     useEffect(() => {
         if (pollId) {
@@ -68,7 +83,17 @@ export default function GroupsPage() {
         }
     }, [_users])
 
-    const [hasJoined, setHasJoined] = useState(false);
+    useEffect(() => {
+        semaphore.refreshUsers()
+        semaphore.refreshFeedback()
+    }, [])
+
+
+
+    useEffect(() => {
+        console.log("Updated _users:", semaphore._users);
+    }, [semaphore._users]);
+
 
 
 
@@ -104,14 +129,17 @@ export default function GroupsPage() {
             })
         }
 
+
+ 
+
         
 
         if (response.status === 200) {
-            console.log("asdfasdfsdfsadf...............", response.status)
-            const test = addUser(_identity.commitment.toString())
-            console.log(".............................",test)
+            console.log("asdfasdfsdfsadf...............", _identity.commitment.toString())
+            addUser(_identity.commitment.toString())
+            // console.log(".............................",test)
 
-            setLogs(`You joined the Feedback group event 🎉 Share your feedback anonymously!`)
+            setLogs(`You joined the Feedback group event Share your feedback anonymously!`)
         } else {
             setLogs("Some error occurred, please try again!")
         }
@@ -121,12 +149,15 @@ export default function GroupsPage() {
 
     // const userHasJoined = useCallback((identity: Identity) => _users.includes(identity.commitment.toString()), [_users])
     const userHasJoined = useCallback((identity: Identity) => {
-        console.log('Current _users:', _users);
+        console.log('Current _users:', semaphore._users);
         console.log('Checking commitment:', identity.commitment.toString());
-        return _users.includes(identity.commitment.toString());
-    }, [_users]);
+        return semaphore._users.includes(identity.commitment.toString());
+    }, [semaphore._users]);
 
-    console.log("user data .................",userHasJoined)
+    // if (!_identity || typeof _identity.commitment.toString() !== 'string') {
+    //     console.error("Invalid identity or commitment.");
+    //     return;
+    // }
 
 
     // useEffect(() => {
@@ -154,9 +185,9 @@ export default function GroupsPage() {
 
             <HStack py="5" justify="space-between">
                 <Text fontWeight="bold" fontSize="lg">
-                    Feedback users ({_users.length})
+                    Feedback users ({semaphore._users.length})
                 </Text>
-                <Button leftIcon={<IconRefreshLine />} variant="link" color="text.700" onClick={refreshUsers}>
+                <Button leftIcon={<IconRefreshLine />} variant="link" color="text.700" onClick={semaphore.refreshUsers}>
                     Refresh
                 </Button>
             </HStack>
@@ -176,20 +207,14 @@ export default function GroupsPage() {
                 </Button>
             </Box>
 
-            <SemaphoreContext.Provider value={semaphore}>
-                <LogsContext.Provider
-                    value={{
-                        _logs,
-                        setLogs
-                    }}
-                >
-                    {/* <Component {...pageProps} /> */}
-                </LogsContext.Provider>
-            </SemaphoreContext.Provider>
+ 
+              
 
-            {_users.length > 0 && (
+   
+
+            {semaphore._users.length > 0 && (
                 <VStack spacing="3" px="3" align="left" maxHeight="300px" overflowY="scroll">
-                    {_users.map((user, i) => (
+                    {semaphore._users.map((user, i) => (
                         <HStack key={i} p="3" borderWidth={1} whiteSpace="nowrap">
                             <Text textOverflow="ellipsis" overflow="hidden">
                                 {user}
@@ -204,7 +229,7 @@ export default function GroupsPage() {
             <Stepper
                 step={2}
                 onPrevClick={() => router.push("/poll/identity")}
-                onNextClick={_identity  ? () => router.push("/poll/proofs") : undefined}
+                onNextClick={_identity && userHasJoined(_identity) ? () => router.push("/poll/proofs") : undefined}
             />
         </>
     )

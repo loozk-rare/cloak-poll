@@ -20,20 +20,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         throw new Error("Please, define ETHEREUM_PRIVATE_KEY in your .env file")
     }
 
-    const ethereumPrivateKey = process.env.ETHEREUM_PRIVATE_KEY
-    const ethereumNetwork = process.env.DEFAULT_NETWORK
+    const ethereumPrivateKey = "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d"
+    const ethereumNetwork = "http://localhost:8545"
     const infuraApiKey = process.env.INFURA_API_KEY
-    const contractAddress = process.env.FEEDBACK_CONTRACT_ADDRESS
+    const contractAddress = "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"
     console.log("contract address is ...............",contractAddress)
 
-    const provider =
-        ethereumNetwork === "localhost"
-            ? new providers.JsonRpcProvider("http://127.0.0.1:8545")
-            : new providers.InfuraProvider(ethereumNetwork, infuraApiKey)
-    console.log("running provider is ................",provider)
+    const provider = new providers.JsonRpcProvider("http://127.0.0.1:8545")
+    //     ethereumNetwork === "localhost"
+    //         ? new providers.JsonRpcProvider("http://127.0.0.1:8545")
+    //         : new providers.InfuraProvider(ethereumNetwork, infuraApiKey)
+    // console.log("running provider is ................",provider)
 
     const signer = new Wallet(ethereumPrivateKey, provider)
+    console.log(signer)
     const contract = new Contract(contractAddress, Feedback.abi, signer)
+    console.log(contract)
 
     const { identityCommitment } = req.body
     console.log("identity",identityCommitment)
