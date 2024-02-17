@@ -12,14 +12,21 @@ import LogsContext from "../../context/LogsContext"
 import SemaphoreContext from "../../context/SemaphoreContext"
 import IconAddCircleFill from "../../icons/IconAddCircleFill"
 import IconRefreshLine from "../../icons/IconRefreshLine"
+import useSemaphore from "../../hooks/useSemaphore"
+
 const { publicRuntimeConfig: env } = getNextConfig()
 
 export default function ProofsPage() {
     const router = useRouter()
     const { setLogs } = useContext(LogsContext)
-    const { _users, _feedback, refreshFeedback, addFeedback } = useContext(SemaphoreContext)
+    // const { _users, _feedback, refreshFeedback, addFeedback } = useContext(SemaphoreContext)
     const [_loading, setLoading] = useBoolean()
     const [_identity, setIdentity] = useState<Identity>()
+
+    const semaphore = useSemaphore()
+    const { _users, _feedback, refreshFeedback, addFeedback } = useContext(SemaphoreContext)
+
+
 
     useEffect(() => {
         const identityString = localStorage.getItem("identity")
@@ -33,10 +40,21 @@ export default function ProofsPage() {
     }, [])
 
     useEffect(() => {
-        if (_feedback.length > 0) {
-            setLogs(`${_feedback.length} feedback retrieved from the group 🤙🏽`)
+        semaphore.refreshFeedback();
+        semaphore.refreshUsers();
+        // semaphore.addFeedback;
+
+
+    }, []); // Dependency array might include specific triggers to refresh users
+
+
+
+
+    useEffect(() => {
+        if (semaphore._feedback.length > 0) {
+            setLogs(`${semaphore._feedback.length} feedback retrieved from the group 🤙🏽`)
         }
-    }, [_feedback])
+    }, [semaphore._feedback])
 
     const sendFeedback = useCallback(async () => {
         if (!_identity) {
@@ -45,20 +63,20 @@ export default function ProofsPage() {
 
         const feedback = prompt("Please enter your feedback:")
 
-        if (feedback && _users) {
+        if (feedback && semaphore._users) {
             setLoading.on()
 
             setLogs(`Posting your anonymous feedback...`)
 
             try {
-                const group = new Group(env.GROUP_ID, 20, _users)
+                const group = new Group("42", 20, semaphore._users)
 
                 const signal = BigNumber.from(utils.formatBytes32String(feedback)).toString()
 
                 const { proof, merkleTreeRoot, nullifierHash } = await generateProof(
                     _identity,
                     group,
-                    env.GROUP_ID,
+                    "42",
                     signal
                 )
 
@@ -76,7 +94,7 @@ export default function ProofsPage() {
                         })
                     })
                 } else {
-                    response = await fetch("api/feedback", {
+                    response = await fetch("../api/feedback", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
@@ -124,9 +142,9 @@ export default function ProofsPage() {
 
             <HStack py="5" justify="space-between">
                 <Text fontWeight="bold" fontSize="lg">
-                    Feedback signals ({_feedback.length})
+                    Feedback signals ({semaphore._feedback.length})
                 </Text>
-                <Button leftIcon={<IconRefreshLine />} variant="link" color="text.700" onClick={refreshFeedback}>
+                <Button leftIcon={<IconRefreshLine />} variant="link" color="text.700" onClick={semaphore.refreshFeedback}>
                     Refresh
                 </Button>
             </HStack>
@@ -146,9 +164,9 @@ export default function ProofsPage() {
                 </Button>
             </Box>
 
-            {_feedback.length > 0 && (
+            {semaphore._feedback.length > 0 && (
                 <VStack spacing="3" align="left">
-                    {_feedback.map((f, i) => (
+                    {semaphore._feedback.map((f, i) => (
                         <HStack key={i} p="3" borderWidth={1}>
                             <Text>{f}</Text>
                         </HStack>

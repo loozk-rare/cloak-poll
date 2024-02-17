@@ -108,22 +108,22 @@ export default function ProofsPage() {
     return (
         <>
             <Heading as="h2" size="xl">
-                Proofs
+                [WORK IN PROGRESS...........]
+
             </Heading>
 
             <Text pt="2" fontSize="md">
-                Vote on the following options
                 <Link href="https://semaphore.pse.dev/docs/guides/proofs" color="primary.500" isExternal>
-                    VOTE
+                    []
                 </Link>{" "}
-                Vote on the following options
+                ....
             </Text>
 
             <Divider pt="5" borderColor="gray.500" />
 
             <HStack py="5" justify="space-between">
                 <Text fontWeight="bold" fontSize="lg">
-                    Feedback signals ({_feedback.length})
+                    USING MACI BACKEND ({_feedback.length})
                 </Text>
                 <Button leftIcon={<IconRefreshLine />} variant="link" color="text.700" onClick={refreshFeedback}>
                     Refresh
@@ -141,7 +141,7 @@ export default function ProofsPage() {
                     isDisabled={_loading}
                     leftIcon={<IconAddCircleFill />}
                 >
-                    Send Feedback
+                    [""]
                 </Button>
             </Box>
 
